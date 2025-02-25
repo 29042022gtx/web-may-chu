@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('components/head') %>
+    <title>Danh sách</title>
+</head>
+
+<body id="page-top">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    <%- include('components/sidebar') %>
+
+      <!-- Content Wrapper -->
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+          <%- include('components/topbar') %>
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+              <!-- Page Heading -->
+              <div
+                class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h5 class="h5 mb-0 text-gray-800">
+                  <a href="/danh-sach">
+                    Danh sách nhân viên
+                  </a>
+                </h5>
+                <a href="/them"
+                  class="d-inline-block btn btn-sm btn-primary shadow-sm">
+                  <i class="fas fa-upload fa-sm text-white-50"></i>
+                  Thêm
+                </a>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-bordered bg-white" id="dataTable"
+                  width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>BirthDate</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% staffs.forEach(staff=> { %>
+                      <tr>
+                        <td>
+                          <%= staff.name %>
+                        </td>
+                        <td>
+                          <%=
+                            `${staff.dateOfBirth.getDate()}/${staff.dateOfBirth.getMonth()
+                            + 1}/${staff.dateOfBirth.getFullYear()}` %>
+                        </td>
+                        <td>
+                          <a href="/sua/<%= staff._id %>"
+                            class="d-inline-block btn btn-sm btn-warning shadow-sm">
+                            Sửa
+                          </a>
+                          <form action="/xoa" method="post" class="d-inline">
+                            <input type="hidden" name="id"
+                              value="<%= staff._id %>">
+                            <button name="delete"
+                              class="d-inline-block btn btn-sm btn-danger shadow-sm"
+                              onclick="return confirm('Xác nhận xóa?')"
+                              >
+                              Xóa
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                      <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright &copy; Your Website 2021</span>
+            </div>
+          </div>
+        </footer>
+        <!-- End of Footer -->
+      </div>
+      <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <%- include('components/script') %>
+</body>
+</html>
