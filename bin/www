@@ -82,6 +82,7 @@ function onError(error) {
  */
 
 function onListening() {
+  console.log(`\x1b[2J\x1b[3J\x1b[HServing: \x1b[35mhttp://localhost:${port}\x1b[0m`)
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
