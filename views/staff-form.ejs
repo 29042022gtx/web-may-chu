@@ -16,7 +16,6 @@
         <!-- Main Content -->
         <div id="content">
           <%- include('components/topbar') %>
-
             <!-- Begin Page Content -->
             <div class="container-fluid">
               <!-- Page Heading -->
@@ -28,28 +27,53 @@
                   </a>
                 </h5>
               </div>
-              <% 
+              <%
               let action = '/them';
               if (mode == 'update') {
-                action = `/sua/${staff._id}`
+                action = `/sua/${staff.id}`
               }
               %>
-              <form action="<%= action %>" method="POST">
+              <form action="<%= action %>" method="POST" enctype="multipart/form-data">
                 <div class="mb-3">
                   <label for="name">Name</label>
                   <input type="text" name="name" id="name"
                     value="<%= staff?.name %>"
                     placeholder="Name"
-                    class="form-control">
-                  <div class="invalid-feedback"></div>
+                    class="form-control"
+                    autocomplete="on"
+                    >
+                  <div class="text-danger">
+                    <%= locals.validationError?.name %>
+                  </div>
                 </div>
                 <div class="mb-3">
                   <label for="dateOfBirth">Birth</label>
                   <input type="date" name="dateOfBirth" id="dateOfBirth"
-                    value="<%= staff?.dateOfBirth.toLocaleString() %>"
+                    value="<%= staff?.dateOfBirth %>"
                     placeholder="Date of birth"
                     class="form-control">
-                  <div class="invalid-feedback"></div>
+                    <div class="text-danger">
+                      <%= locals.validationError?.dateOfBirth %>
+                    </div>
+                </div>
+                <div class="mb-3">
+                  <label for="photo">Photo</label>
+                  <% if (staff?.photo) { %>
+                    <img src="<%= staff.photoUrl %>" alt="" width="50" height="50"
+                    style="object-fit: contain;"
+                    >
+                  <% } else { %>
+                    <img src="/uploads/default.jpg" alt="" width="50" height="50"
+                      style="object-fit: contain;"
+                      >
+                  <% } %>
+                  <input type="file" name="photo" id="photo"
+                    value="<%= staff?.photo %>"
+                    placeholder="Date of birth"
+                    class="form-control-file">
+                    <div class="text-danger">
+                      <%= locals.validationError?.photo %>
+                    </div>
                 </div>
                 <button class="btn btn-primary">Submit</button>
               </form>

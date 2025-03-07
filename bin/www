@@ -3,10 +3,11 @@
 /**
  * Module dependencies.
  */
-
+require('dotenv/config');
 var app = require('../app');
 var debug = require('debug')('web-may-chu:server');
 var http = require('http');
+const mongoConnect = require('../common/mongoConnect.js');
 
 /**
  * Get port from environment and store in Express.
@@ -25,7 +26,10 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, async () => {
+  process.stdout.write('\x1b[3J\x1b[2J\x1b[H');
+  await mongoConnect();
+});
 server.on('error', onError);
 server.on('listening', onListening);
 
@@ -58,9 +62,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -82,10 +84,8 @@ function onError(error) {
  */
 
 function onListening() {
-  console.log(`\x1b[2J\x1b[3J\x1b[HServing: \x1b[35mhttp://localhost:${port}\x1b[0m`)
+  console.log(`Serving: \x1b[35mhttp://localhost:${port}\x1b[0m`);
   var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
