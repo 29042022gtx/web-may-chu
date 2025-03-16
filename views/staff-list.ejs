@@ -26,11 +26,13 @@
                   Danh sách nhân viên
                 </a>
               </h5>
-              <a href="/them"
-                class="d-inline-block btn btn-sm btn-primary shadow-sm">
-                <i class="fas fa-upload fa-sm text-white-50"></i>
-                Thêm
-              </a>
+              <% if (locals.user?.role == 'admin') { %>
+                <a href="/them"
+                  class="d-inline-block btn btn-sm btn-primary shadow-sm">
+                  <i class="fas fa-upload fa-sm text-white-50"></i>
+                  Thêm
+                </a>
+              <% } %>
             </div>
 
             <div class="table-responsive">
@@ -41,7 +43,7 @@
                     <th>Photo</th>
                     <th>Name</th>
                     <th>BirthDate</th>
-                    <th></th>
+                    <!-- <th></th> -->
                   </tr>
                 </thead>
                 <tbody>
@@ -66,20 +68,22 @@
                           `${staff.dateOfBirth.getDate()}/${staff.dateOfBirth.getMonth()
                           + 1}/${staff.dateOfBirth.getFullYear()}` %>
                       </td>
-                      <td>
-                        <a href="/sua/<%= staff.id %>"
-                          class="d-inline-block btn btn-sm btn-warning shadow-sm">
-                          Sửa
-                        </a>
-                        <form action="/xoa/<%= staff.id %>" method="post" class="d-inline">
-                          <button name="delete"
-                            class="d-inline-block btn btn-sm btn-danger shadow-sm"
-                            onclick="return sweetConfirm(this)"
-                            >
-                            Xóa
-                          </button>
-                        </form>
-                      </td>
+                      <% if (locals.user?.role == 'admin') { %>
+                        <td>
+                          <a href="/sua/<%= staff.id %>"
+                            class="d-inline-block btn btn-sm btn-warning shadow-sm">
+                            Sửa
+                          </a>
+                          <form action="/xoa/<%= staff.id %>" method="post" class="d-inline">
+                            <button name="delete"
+                              class="d-inline-block btn btn-sm btn-danger shadow-sm"
+                              onclick="return sweetConfirm(this)"
+                              >
+                              Xóa
+                            </button>
+                          </form>
+                        </td>
+                      <% } %>
                     </tr>
                     <% }) %>
                 </tbody>
@@ -131,24 +135,5 @@
     return false;
   }
 </script>
-<% if (locals.success) { %>
-  <script>
-    Swal.fire({
-      icon: 'success',
-      title: 'Thành công',
-      text: '<%= locals.success %>',
-      confirmButtonColor: '#4e73df',
-    })
-  </script>
-<% } %>
-<% if (locals.error) { %>
-  <script>
-    Swal.fire({
-      icon: 'error',
-      title: 'Lỗi',
-      text: '<%= locals.error %>',
-      confirmButtonColor: '#4e73df',
-    })
-  </script>
-<% } %>
+<%- include('./components/scripts/alert-script') %>
 </html>

@@ -8,6 +8,8 @@
     "db:seed": "node ./db/seeds/seeder.js"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.6.0",
+    "bcryptjs": "^3.0.2",
     "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.4",
     "date-fns": "^4.1.0",
@@ -19,6 +21,7 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.18.1",
     "http-errors": "~1.6.3",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.11.0",
     "morgan": "~1.9.1",
     "nodemon": "^3.1.9"

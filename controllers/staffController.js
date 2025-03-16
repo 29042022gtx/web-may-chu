@@ -11,6 +11,7 @@ const findUserMiddleware = async (req, res, next) => {
   if (!ObjectId.isValid(id)) return res.sendStatus(400);
   const staff = await User.findOne({
     _id: ObjectId.createFromHexString(id),
+    role: { $ne: 'admin' },
   });
   if (!staff) return res.sendStatus(404);
   req.staff = staff;
@@ -35,7 +36,7 @@ function validatePhoto(photo) {
   throw error;
 }
 
- async function uploadPhoto(photo) {
+async function uploadPhoto(photo) {
   const uploadDir = path.join(__dirname, '../public/uploads');
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
@@ -61,10 +62,9 @@ const removeImage = (imagePath) => {
   });
 };
 
-
 const staffController = {
   getIndex: async (req, res, next) => {
-    const staffs = await User.find();
+    const staffs = await User.find({ role: { $ne: 'admin' } });
     res.render('staff-list', {
       staffs,
     });

@@ -190,10 +190,20 @@
                   Activity Log
               </a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
-              </a>
+
+              <% if (locals.user) { %>
+                <form action="/dang-xuat" method="post">
+                    <button class="dropdown-item">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </button>
+                </form>
+              <% } else { %>
+                <a class="dropdown-item" href="/dang-nhap">
+                    <i class="fas fa-sign-in-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Đăng nhập
+                </a>
+              <% } %>
           </div>
       </li>
 

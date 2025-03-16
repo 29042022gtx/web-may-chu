@@ -1,0 +1,20 @@
+<% if (locals.success) { %>
+  <script>
+    Swal.fire({
+      icon: 'success',
+      title: 'Thành công',
+      text: '<%= locals.success %>',
+      confirmButtonColor: '#4e73df',
+    })
+  </script>
+<% } %>
+<% if (locals.error) { %>
+  <script>
+    Swal.fire({
+      icon: 'error',
+      title: 'Lỗi',
+      text: '<%= locals.error %>',
+      confirmButtonColor: '#4e73df',
+    })
+  </script>
+<% } %>

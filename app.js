@@ -9,6 +9,7 @@ const fileUpload = require('express-fileupload');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const getUser = require('./common/getUser');
 
 var app = express();
 
@@ -28,6 +29,7 @@ app.use(
   })
 );
 app.use(flash());
+app.use(getUser);
 app.use((req, res, next) => {
   const flashLocals = {};
   const flash = req.flash();
@@ -37,7 +39,7 @@ app.use((req, res, next) => {
       flashLocals[key] = element[0];
     }
   }
-  res.locals = Object.assign({}, res.locals, flashLocals)
+  res.locals = Object.assign({}, res.locals, flashLocals);
   next();
 });
 app.use(fileUpload());

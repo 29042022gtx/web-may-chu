@@ -1,16 +1,31 @@
-var express = require('express');
+const express = require('express');
 const staffController = require('../controllers/staffController');
-var router = express.Router();
+const authController = require('../controllers/authController');
+const auth = require('../middlewares/auth');
+const role = require('../middlewares/role');
+const indexRouter = express.Router();
+const authRouter = express.Router();
+const adminRouter = express.Router();
 
 /* GET home page. */
-router.get('/', function (req, res, next) {
+indexRouter.get('/', function (req, res, next) {
   res.render('index');
 });
-router.get('/danh-sach', staffController.getIndex);
-router.get('/them', staffController.getCreate);
-router.post('/them', staffController.postCreate);
-router.get('/sua/:id', staffController.getUpdate);
-router.post('/sua/:id', staffController.postUpdate);
-router.post('/xoa/:id', staffController.postDelete);
+indexRouter.get('/dang-nhap', authController.getLogin);
+indexRouter.post('/dang-nhap', authController.postLogin);
+indexRouter.post('/dang-xuat', authController.logout);
 
-module.exports = router;
+authRouter.use(auth);
+authRouter.get('/danh-sach', staffController.getIndex);
+
+adminRouter.use(auth, role(['admin']));
+adminRouter.get('/them', staffController.getCreate);
+adminRouter.post('/them', staffController.postCreate);
+adminRouter.get('/sua/:id', staffController.getUpdate);
+adminRouter.post('/sua/:id', staffController.postUpdate);
+adminRouter.post('/xoa/:id', staffController.postDelete);
+
+indexRouter.use(authRouter);
+indexRouter.use(adminRouter);
+
+module.exports = indexRouter;

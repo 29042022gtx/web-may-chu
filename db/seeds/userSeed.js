@@ -1,51 +1,34 @@
-const User = require("../../models/User");
-
+const User = require('../../models/User');
+const bcrypt = require('bcryptjs');
+const { faker } = require('@faker-js/faker');
 
 async function userSeed() {
   await User.deleteMany();
-  const staffs = [
-    {
-      name: 'John Doe',
-      dateOfBirth: new Date('1985-07-15'),
-    },
-    {
-      name: 'Jane Smith',
-      dateOfBirth: new Date('1990-02-22'),
-    },
-    {
-      name: 'Alice Johnson',
-      dateOfBirth: new Date('1982-11-30'),
-    },
-    {
-      name: 'Bob Brown',
-      dateOfBirth: new Date('1978-03-05'),
-    },
-    {
-      name: 'Charlie Davis',
-      dateOfBirth: new Date('1995-06-25'),
-    },
-    {
-      name: 'Diana Miller',
-      dateOfBirth: new Date('1992-09-13'),
-    },
-    {
-      name: 'Eve Wilson',
-      dateOfBirth: new Date('1989-12-09'),
-    },
-    {
-      name: 'Frank Moore',
-      dateOfBirth: new Date('1980-04-18'),
-    },
-    {
-      name: 'Grace Taylor',
-      dateOfBirth: new Date('1993-08-07'),
-    },
-    {
-      name: 'Hank Martinez',
-      dateOfBirth: new Date('1975-01-25'),
-    },
-  ];
-  await User.insertMany(staffs);
+  await User.create({
+    name: 'Admin',
+    email: 'admin@mail.com',
+    password: 12345678,
+    dateOfBirth: faker.date.past(30, new Date('2000-01-01')),
+    role: 'admin',
+  });
+  await User.create({
+    name: 'Staff 01',
+    email: 'staff01@mail.com',
+    password: 12345678,
+    dateOfBirth: faker.date.past(30, new Date('2000-01-01')),
+    role: 'staff',
+  });
+  const users = [];
+  for (let i = 1; i <= 10; i++) {
+    users.push({
+      name: faker.person.fullName(),
+      email: faker.internet.email(),
+      password: 12345678,
+      dateOfBirth: faker.date.past(30, new Date('2000-01-01')),
+      role: 'staff',
+    });
+  }
+  await User.insertMany(users);
 }
 
-module.exports = userSeed
+module.exports = userSeed;
