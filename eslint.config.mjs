@@ -9,7 +9,8 @@ export default [
   pluginJs.configs.recommended,
   {
     rules: {
-      'un-used-vars': 'warn'
+      'no-unused-vars': 'warn',
+      'no-undef': 'error',
     }
   }
 ];
