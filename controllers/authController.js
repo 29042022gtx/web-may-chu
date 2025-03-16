@@ -15,13 +15,15 @@ authController.postLogin = async (req, res) => {
     // Check if user exists
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Invalid email or password1' });
+      req.flash('error', 'Email hoặc mật khẩu không đúng');
+      return res.redirect('/dang-nhap');
     }
 
     // Check if password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid email or password' });
+      req.flash('error', 'Email hoặc mật khẩu không đúng');
+      return res.redirect('/dang-nhap');
     }
 
     // Create and send token
